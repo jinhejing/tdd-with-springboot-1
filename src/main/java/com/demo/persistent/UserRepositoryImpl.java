@@ -22,10 +22,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Boolean selectByIdCode(String idCode) {
+    public Boolean selectByIdCode(User user) {
+        //userList.add(user);
         boolean flag = false;
-        for (User user:userList){
-            if (idCode.equals(user.getIdCode())){
+        for (User user1:userList){
+            if (user.getIdCode().equals(user1.getIdCode())){
                 flag =true;
             }
         }

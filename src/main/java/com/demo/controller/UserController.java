@@ -17,7 +17,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public User register(@Validated @RequestBody UserRequest request) throws Exception {
+    public String register(@Validated @RequestBody UserRequest request) throws Exception {
         User user = transfer(request);
         return userService.register(user);
     }

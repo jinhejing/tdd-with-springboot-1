@@ -1,10 +1,18 @@
 package com.demo.service;
 
+import com.demo.Application;
+import com.demo.BaseTest;
 import com.demo.controller.request.UserRequest;
 import com.demo.domain.model.User;
 import com.demo.domain.service.UserService;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,9 +24,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 * @date 2020/7/31 
 * @version V1.0 
 */
-public class UserServiceTest{
+
+public class UserServiceTest extends BaseTest {
     @Autowired
     private UserService userService;
+
+    @Before
+    public void Before(){
+        User user=User.builder()
+                .idCode("220106199001108214")
+                .idType("1")
+                .realName("张三")
+                .phoneNo("18088989212")
+                .build();
+        try {
+            userService.register(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void should_user_info_not_all() throws Exception {
@@ -26,7 +50,7 @@ public class UserServiceTest{
                 .idCode("220106199001108214")
                 .idType("1")
                 .realName("张三")
-                .idType("220106199001108214")
+                .idType("1")
                 .phoneNo("")
                 .build();
 
@@ -53,13 +77,14 @@ public class UserServiceTest{
         User user=User.builder()
                 .idCode("220106199001108214")
                 .idType("1")
+                .password("123456789")
                 .realName("张三")
                 .phoneNo("18088669212")
                 .build();
 
         Exception exception = assertThrows(
                 Exception.class, () -> userService.register(user));
-        assertTrue(exception.getMessage().contains("长度不能"));
+        assertTrue(exception.getMessage().contains("用户已注册"));
     }
 
     @Test
@@ -68,6 +93,7 @@ public class UserServiceTest{
                 .idCode("220106199001108214")
                 .idType("1")
                 .realName("张三")
+                .password("123456789")
                 .phoneNo("18088669212")
                 .build();
         Exception exception = assertThrows(
@@ -81,6 +107,7 @@ public class UserServiceTest{
                 .idCode("220106199001108214")
                 .idType("1")
                 .realName("张三")
+                .password("123456789")
                 .phoneNo("18088669212")
                 .build();
         String res=userService.register(user);

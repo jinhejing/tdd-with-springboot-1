@@ -12,13 +12,13 @@ public class UserService {
 
     public String register(User user) throws Exception {
         checkUserInfo(user);
-        if(userRepository.selectByIdCode(user.getIdCode())){
+        if(userRepository.selectByIdCode(user)){
             throw new Exception("用户已注册");
         }
-        realNameVerification(user);
+        realNameVerification(true);
         User user1=userRepository.save(user);
-        sendSMS(user1);
-        return user1.getRealName()+"成为该平台的注册用户";
+        String mess=sendSMS(user1);
+        return user1.getRealName()+mess;
     }
 
     private void checkUserInfo(User user) throws Exception {
@@ -36,15 +36,15 @@ public class UserService {
         }
     }
 
-    private void realNameVerification(User user) throws Exception{
+    private void realNameVerification(Boolean isRealName) throws Exception{
         //调实名验证接口
-        if(false){
+        if(!isRealName){
             throw new Exception("实名验证失败");
         }
     }
 
-    private void sendSMS(User user) throws Exception{
+    private String sendSMS(User user) throws Exception{
         //调实名验证接口
-
+      return "成为该平台的注册用户";
     }
 }
