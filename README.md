@@ -34,4 +34,11 @@
 
 #### 任务拆分
 - Given 正确的注册信息 When 注册 Then 注册成功
-- 
+- Given 用户信息不完整 When 注册 Then 返回有必须信息未输入
+- Given 手机号位数超过20位 When 注册 Then 返回手机号码超长
+- Given 登录密码位数不在8-16位范围内 When 注册 Then 返回登录密码位数需在8-16之间
+- Given 姓名超过20字 When 注册 Then 返回姓名超长
+- Given 身份证超过18位 When 注册 Then 返回身份证号超长
+- Given 已注册的用户 When 注册 Then 提示："当前用户已注册"
+- Given 用户实名认证不通过 When 注册 Then 提示:“实名认证失败”
+- Given 正确注册信息 When 注册成功 Then 短信提示用户成为该平台的注册用户
